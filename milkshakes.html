@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milkshakes | Monzen</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1d5a98, #3eb491, #d5dd55);
+            color: white;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .logo {
+            height: 80px;
+            margin: 0 auto;
+            display: block;
+        }
+        /* Desktop Menu */
+        .desktop-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .desktop-menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            transition: color 0.3s, background 0.3s;
+        }
+        
+        .desktop-menu a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        /* Hide sidebar button on desktop */
+        .menu-container {
+            display: none;
+        }
+
+        /* Responsive Menu */
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none; /* Hide desktop menu */
+            }
+            .menu-container {
+                display: block; /* Show menu button */
+            }
+        }
+        .menu-container {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .menu-btn {
+            font-size: 28px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            transition: right 0.3s ease-in-out;
+            padding-top: 50px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .sidebar a:hover {
+            background: #3eb491;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        /* Drinks Grid Section */
+        .drinks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 90%;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .drink-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #1d5a98, #3eb491, #d5dd55); /* Matching gradient */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+        }
+        
+        .drink-card:hover {
+            background: linear-gradient(to right, #3eb491, #d5dd55, #1d5a98); /* Reverse gradient on hover */
+            transform: scale(1.05);
+        }
+        
+        .drink-card img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+        
+        .drink-card h3 {
+            font-size: 20px;
+            margin: 10px 0;
+            color: white;
+        }
+        
+        .drink-card p {
+            font-size: 14px;
+            color: white;
+            opacity: 0.9;
+            text-align: center;
+        }
+        .banner {
+            background: linear-gradient(to right, #1d5a98, #3eb491, #d5dd55); /* Same as website */
+            padding: 40px 0 40px 0;
+            margin-bottom: 50px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .banner-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .banner-content {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.2); /* Soft translucent background */
+            padding: 20px;
+            border-radius: 12px;
+            width: 50%; /* Keeps it centered and compact */
+            max-width: 600px; /* Prevents it from being too wide */
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .icon-box {
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .icon-box img {
+            width: 60px; /* Adjust icon size */
+            height: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2)); /* Soft shadow */
+        }
+        
+        .icon-box p {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .icon-box:hover {
+            transform: translateY(-5px); /* Subtle hover effect */
+        }
+        
+        .mail-container {
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            display: flex;
+            flex-direction: column; /* Stacks text above icon */
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .mail-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin-bottom: 12px; /* Space between text and icon */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+        }
+        
+        .mail-icon img {
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2)); /* Soft shadow */
+        }
+        
+        .mail-text {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+        
+        .mail-container:hover .mail-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        .mail-container:hover .mail-text {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+          
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <img src="Monzen Final logo file-05.png" alt="Monzen Logo" class="logo">
+        <div class="menu-container" onclick="openMenu()">
+            <span class="menu-btn">&#9776;</span>
+        </div>
+    </div>
+    <nav class="desktop-menu">
+        <a href="home.html">Home</a>
+        <a href="milkshakes.html">Milkshakes</a>
+        <a href="smoothies.html">Smoothies</a>
+        <a href="mocktails.html">Mocktails</a>
+        <a href="coolers.html">Coolers</a>
+        <a href="lemonades.html">Lemonades</a>
+        <a href="enquiry.html">Enquiry</a>
+    </nav>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" onclick="closeMenu()">&times;</span>
+        <a href="home.html">Home</a>
+        <a href="milkshakes.html">Milkshakes</a>
+        <a href="smoothies.html">Smoothies</a>
+        <a href="mocktails.html">Mocktails</a>
+        <a href="coolers.html">Coolers</a>
+        <a href="lemonades.html">Lemonades</a>
+        <a href="enquiry.html">Enquiry</a>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Our Milkshakes</h1>
+        <p>Discover our delicious range of handcrafted milkshakes.</p>
+
+        <!-- Milkshake Cards Section -->
+        <div class="drinks-container">
+            <div class="drink-card">
+                <img src="Milkshakes/Strawberry_Peach .webp" alt="Strawberry Peach">
+                <h3>Strawberry Peach</h3>
+                <p>The Strawberry Peach Milkshake combines the luscious sweetness of strawberries with the juicy freshness of ripe peaches. This creamy indulgence is perfect for a hot summer day or as a delightful dessert drink. Packed with vitamins and natural sugars, it provides a refreshing energy boost while satisfying your sweet tooth. Its smooth texture and vibrant flavors make it a hit for milkshake enthusiasts of all ages.</p>
+            </div>
+
+            <div class="drink-card">
+                <img src="Milkshakes/hot_chocolate.webp" alt="Hot Chocolate">
+                <h3>Hot Chocolate</h3>
+                <p>A timeless classic, Hot Chocolate is a decadent and rich drink crafted from high-quality dark chocolate. Perfectly indulgent and comforting, it’s a cozy beverage for chilly days or a sweet treat anytime.</p>
+            </div>
+
+            <div class="drink-card">
+                <img src="Milkshakes/Classic Mango Milkshake.webp" alt="Classic Mango">
+                <h3>ALPHONSO Mango </h3>
+                <p>A summer staple, this Alphonso Mango Milkshake is a luscious blend of ripe mangoes and milk. This thick, creamy, and naturally sweet beverage is a favorite for all ages, delivering tropical indulgence in every sip.</p>
+            </div>
+
+            <div class="drink-card">
+                <img src="Milkshakes/BananaDatesMilk.webp" alt="Banana Dates Milkshake">
+                <h3>Banana Dates </h3>
+                <p>The Banana Dates Milkshake combines the creamy sweetness of ripe bananas with the natural richness of dates, offering a healthy and energizing beverage packed with nutrients.</p>
+            </div>
+
+            <div class="drink-card">
+                <img src="Milkshakes/Banana Popcorn Milkshake.webp" alt="Caramel Banana Popcorn Milkshake">
+                <h3>Caramel Banana Popcorn </h3>
+                <p>Unique and indulgent, the Caramel Banana Popcorn Milkshake is a delightful fusion of ripe bananas, buttery popcorn, and caramel. This milkshake combines creamy textures with a hint of crunch, offering a playful and decadent treat.</p>
+            </div>
+            <div class="drink-card">
+                <img src="Milkshakes/CoffeeMilk.webp" alt="Coffee">
+                <h3>Coffee</h3>
+                <p>The 100% Arabica Coffee is the perfect pick-me-up for coffee lovers. Made with premium Arabica beans, this frappe offers a bold and rich coffee flavor, blended with creamy milk and a hint of sweetness. Available in medium and dark roasts, it’s the ideal choice for a refreshing caffeine boost on a warm day</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <h2 class="banner-title">Discover Our Features</h2>
+        <div class="banner-content">
+            <div class="icon-box">
+                <img src="crisps.png" alt="Thow">
+                <p>Thow</p>
+            </div>
+            <div class="icon-box">
+                <img src="blender.png" alt="Blend">
+                <p>Blend</p>
+            </div>
+            <div class="icon-box">
+                <img src="drinks.png" alt="Serve">
+                <p>Serve</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="mailto:contact@monzen.com" class="mail-container" title="Email Us">
+        <div class="mail-icon">
+            <img src="email.webp" alt="Email Us">
+        </div>
+        <span class="mail-text">Mail us for orders</span>
+    </a>
+    
+    
+      
+
+    <footer class="footer">
+        &copy; 2025 Monzen™. All rights reserved.
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function openMenu() {
+            document.getElementById("sidebar").style.right = "0";
+        }
+
+        function closeMenu() {
+            document.getElementById("sidebar").style.right = "-250px";
+        }
+    </script>
+</body>
+</html>
